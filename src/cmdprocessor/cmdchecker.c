@@ -151,6 +151,8 @@ BOOL start_shell() {
             continue; 
         }
         size_t len = wcslen(buffer);
+        LPWSTR tempbuffer = alloc_mem(BUFSIZE);
+        wcscpy_s(tempbuffer, BUFSIZE, buffer);
         if (len > 0 && buffer[len - 1] == L'\n') {
             buffer[len - 1] = L'\0';
         }
@@ -159,10 +161,11 @@ BOOL start_shell() {
         WCHAR* arg = wcstok_s(NULL, L"\0", &context); 
 
         if (cmd == NULL) continue;
-        cmd_checker(cmd, arg, buffer);
+        cmd_checker(cmd, arg, tempbuffer);
 
 
         free_mem(buffer);
+        free_mem(tempbuffer);
     }
     return TRUE;
 }
