@@ -30,6 +30,9 @@
     <ClCompile Include="src\INI\ini.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dirmgmt\dir.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cmdprocessor\cmdchecker.h">
@@ -48,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\INI\ini.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dirmgmt\dir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Downloads\tinydir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

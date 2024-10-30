@@ -3,7 +3,7 @@
 #include <wchar.h>
 #include <windows.h>
 
-#define VER 0.000000
+#define VER 0.000001
 
 /*
 
@@ -69,7 +69,6 @@
     Windows Terminal Shell Prompt
     Copyright realzvqle and ZivGates, All Rights Reserved
 
-    ZivGates License
 
     This software is provided "as is", without any warranty. Use it at your own risk.
 

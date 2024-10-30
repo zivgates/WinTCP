@@ -9,7 +9,7 @@ BOOL start_shell();
 
 
 typedef struct _data {
-	WCHAR* cmd;
-	WCHAR* args;
+	LPWSTR cmd;
+	LPWSTR args;
 	int index;
 } data;
