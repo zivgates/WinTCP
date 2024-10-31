@@ -5,15 +5,16 @@
 #define BUFSIZE 4096
 
 BOOL running = TRUE;
-BOOL currentprocess = FALSE;
+BOOL cmdrunning = FALSE;
 
-WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir", L"rmdir", L"heaptest", L"start",
+WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir", L"rmdir", L"memtest", L"start",
                   L"sudo", L"about", L"power"};
 
 BOOL WINAPI ctrl_handler(DWORD fdwCtrlType) {
     switch (fdwCtrlType) {
         case CTRL_C_EVENT:
-            currentprocess = FALSE;
+            if (cmdrunning == FALSE) exit(0);
+            else cmdrunning = FALSE;
             return TRUE;
         default:
             return FALSE;
@@ -117,8 +118,7 @@ DWORD WINAPI cmd_executor(void* datavoid) {
 }
 
 static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
-    
-    ;
+    cmdrunning = TRUE;
     data dta = { command, args , 0};
     int cmdsize = sizeof(cmds) / sizeof(cmds[0]);
     for (int i = 0; i < cmdsize; i++) {
@@ -132,6 +132,7 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
             }
             WaitForSingleObject(hThread, INFINITE);
             CloseHandle(hThread);
+            cmdrunning = FALSE;
             return;
         }
     }
@@ -155,7 +156,6 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
         show_failure_resp(GetLastError());
         return;
     }
-    currentprocess = TRUE;
     DWORD exitCode = STILL_ACTIVE;
     while (exitCode == STILL_ACTIVE) {
         if (GetExitCodeProcess(p.hProcess, &exitCode)) {
@@ -168,11 +168,12 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
             TerminateProcess(p.hProcess, 0);
             break;
         }
-        if (currentprocess == FALSE) {
+        if (cmdrunning == FALSE) {
             TerminateProcess(p.hProcess, 0);
             break;
         }
     }
+    cmdrunning = FALSE;
 }   
 
 
