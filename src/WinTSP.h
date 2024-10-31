@@ -66,7 +66,7 @@
 
 
 
-    Windows Terminal Shell Prompt
+    Windows Terminal Command Prompt
     Copyright realzvqle and ZivGates, All Rights Reserved
 
 

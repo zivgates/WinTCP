@@ -87,7 +87,7 @@ WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir",
                     break;
                 }
                 case 11:
-                    wprintf(L"Windows Terminal Shell Prompt (WinTSP) Build %0.3f\nCopyright ZivGates, All Rights Reserved\n", VER);
+                    wprintf(L"Windows Terminal Command Prompt (WinTSP) Build %0.3f\nCopyright ZivGates, All Rights Reserved\n", VER);
                     break;
                 case 12:
                     power_management(dta->args);
