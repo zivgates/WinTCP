@@ -5,12 +5,23 @@
 #define BUFSIZE 4096
 
 BOOL running = TRUE;
+BOOL currentprocess = FALSE;
 
 WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir", L"rmdir", L"heaptest", L"start",
                   L"sudo", L"about", L"power"};
 
+BOOL WINAPI ctrl_handler(DWORD fdwCtrlType) {
+    switch (fdwCtrlType) {
+        case CTRL_C_EVENT:
+            currentprocess = FALSE;
+            return TRUE;
+        default:
+            return FALSE;
+            
+    }
+}
 
- DWORD WINAPI cmd_executor(void* datavoid) {
+DWORD WINAPI cmd_executor(void* datavoid) {
     data* dta = (data*)datavoid;
     _try{
             switch (dta->index) {
@@ -106,6 +117,8 @@ WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir",
 }
 
 static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
+    
+    ;
     data dta = { command, args , 0};
     int cmdsize = sizeof(cmds) / sizeof(cmds[0]);
     for (int i = 0; i < cmdsize; i++) {
@@ -129,6 +142,7 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
     ZeroMemory(&p, sizeof(PROCESS_INFORMATION));
     WCHAR* context;
     wcstok_s(buffer, L"\n", &context);
+
     BOOL result = CreateProcessW(NULL,
                                 buffer,
                                 NULL, NULL,
@@ -141,12 +155,33 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
         show_failure_resp(GetLastError());
         return;
     }
-    WaitForSingleObject(p.hProcess, INFINITE);
+    currentprocess = TRUE;
+    DWORD exitCode = STILL_ACTIVE;
+    while (exitCode == STILL_ACTIVE) {
+        if (GetExitCodeProcess(p.hProcess, &exitCode)) {
+            if (exitCode == STILL_ACTIVE) {
+                Sleep(100); 
+            }
+        }
+        else {
+            show_failure_resp(GetLastError());
+            TerminateProcess(p.hProcess, 0);
+            break;
+        }
+        if (currentprocess == FALSE) {
+            TerminateProcess(p.hProcess, 0);
+            break;
+        }
+    }
 }   
 
 
 
 BOOL start_shell() {
+    if (!SetConsoleCtrlHandler(ctrl_handler, TRUE)) {
+        show_failure_resp(GetLastError());
+        running = FALSE;
+    }
     wprintf(L"Zivgates WinTCP Build %0.3f\n"
         L"Copyright ZivGates, All Rights Reserved\n\n", VER);
     LPWSTR context = NULL;
