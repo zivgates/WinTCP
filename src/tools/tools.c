@@ -4,12 +4,13 @@
 
 
 void* alloc_mem(size_t size) {
-    return HeapAlloc(GetProcessHeap(), 0, size);
+    return VirtualAlloc(NULL, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 }
 
 BOOL free_mem(void* memory) {
-    return HeapFree(GetProcessHeap(), 0, memory);
+    return VirtualFree(memory, 0, MEM_RELEASE);
 }
+
 
 
 VOID show_failure_resp(DWORD errorCode)
