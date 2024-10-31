@@ -24,13 +24,13 @@
     <ClCompile Include="src\tools\tools.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmdprocessor\crashhandler.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\INI\ini.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dirmgmt\dir.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\power\power.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,9 +44,6 @@
     <ClInclude Include="src\WinTSP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cmdprocessor\crashhandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Downloads\tinydir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\power\power.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

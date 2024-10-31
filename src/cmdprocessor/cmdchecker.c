@@ -1,13 +1,13 @@
 #include "cmdchecker.h"
 #include "../tools/tools.h"
-#include "crashhandler.h"
 #include "../dirmgmt/dir.h"
+#include "../power/power.h"
 #define BUFSIZE 4096
 
 BOOL running = TRUE;
 
 WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir", L"rmdir", L"heaptest", L"start",
-                  L"sudo"};
+                  L"sudo", L"about", L"power"};
 
 
  DWORD WINAPI cmd_executor(void* datavoid) {
@@ -86,6 +86,12 @@ WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir",
                     }
                     break;
                 }
+                case 11:
+                    wprintf(L"Windows Terminal Shell Prompt (WinTSP) Build %0.3f\nCopyright ZivGates, All Rights Reserved\n", VER);
+                    break;
+                case 12:
+                    power_management(dta->args);
+                    break;
 ;               default:
                     wprintf(L"Switch Overflow, Please Report this Problem to zvqle\n");
                     break;
@@ -117,28 +123,31 @@ static inline void cmd_checker(WCHAR* command, WCHAR* args, WCHAR* buffer) {
     }
     STARTUPINFOW sp;
     ZeroMemory(&sp, sizeof(STARTUPINFOW));
+    sp.cb = sizeof(STARTUPINFOW);
     PROCESS_INFORMATION p;
     ZeroMemory(&p, sizeof(PROCESS_INFORMATION));
+    WCHAR* context;
+    wcstok_s(buffer, L"\n", &context);
     BOOL result = CreateProcessW(NULL,
                                 buffer,
                                 NULL, NULL,
-                                FALSE, BELOW_NORMAL_PRIORITY_CLASS,
+                                FALSE, NULL,
                                 NULL,
                                 NULL,
                                 &sp,
                                 &p);
-    WaitForSingleObject(p.hProcess, INFINITE);
     if (!result) {
-        wprintf(L"Couldn't find %s\n", command);
+        show_failure_resp(GetLastError());
         return;
-    }    
+    }
+    WaitForSingleObject(p.hProcess, INFINITE);
 }   
 
 
 
 BOOL start_shell() {
-    wprintf(L"Zivgates WinTCP Build %f\n"
-        L"Copyright realzvqle, All Rights Reserved\n\n", VER);
+    wprintf(L"Zivgates WinTCP Build %0.3f\n"
+        L"Copyright ZivGates, All Rights Reserved\n\n", VER);
     LPWSTR context = NULL;
 
     while (running) {

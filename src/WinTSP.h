@@ -3,7 +3,7 @@
 #include <wchar.h>
 #include <windows.h>
 
-#define VER 0.000001
+#define VER 0.001
 
 /*
 

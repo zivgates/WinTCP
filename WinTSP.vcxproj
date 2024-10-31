@@ -237,9 +237,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\power\power.c" />
     <ClCompile Include="src\dirmgmt\dir.c" />
     <ClCompile Include="src\INI\ini.c" />
-    <ClCompile Include="src\cmdprocessor\crashhandler.c" />
     <ClCompile Include="src\cmdprocessor\cmdchecker.c" />
     <ClCompile Include="src\WinTSP.c" />
     <ClCompile Include="src\tools\tools.c" />
@@ -249,8 +249,8 @@
     <ClInclude Include="src\dirmgmt\dir.h" />
     <ClInclude Include="src\INI\ini.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\cmdprocessor\crashhandler.h" />
     <ClInclude Include="src\cmdprocessor\cmdchecker.h" />
+    <ClInclude Include="src\power\power.h" />
     <ClInclude Include="src\tools\tools.h" />
     <ClInclude Include="src\WinTSP.h" />
   </ItemGroup>
