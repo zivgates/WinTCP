@@ -98,6 +98,7 @@ WCHAR* cmds[] = { L"echo" , L"crash", L"cd", L"ls", L"exit", L"clear", L"mkdir",
             }
     } _except(EXCEPTION_EXECUTE_HANDLER){
         wprintf(L"Internal Error\n");
+
     }
     
     return 0;

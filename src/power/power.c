@@ -1,6 +1,6 @@
 #include "power.h"
 #include <winternl.h>
-
+#include <powrprof.h>
 
 
 #pragma comment(lib, "ntdll.lib")
@@ -96,7 +96,6 @@ VOID power_management(WCHAR* args) {
     WCHAR* token;
     WCHAR* type = wcstok_s(args, L" ", &token);
     WCHAR* isImmediate = wcstok_s(NULL, L"\n", &token);
-    wprintf(L"1:%s, 2%s\n", type, isImmediate);
     if (!giveShutDownPerms()) {
         return;
     }
@@ -110,12 +109,12 @@ VOID power_management(WCHAR* args) {
 
     switch (type[1]) {
     case L'r':
-        if (!InitiateSystemShutdownExW(NULL, L"WinTSP Called Restart", 5, FALSE, TRUE, SHTDN_REASON_MAJOR_OTHER)) {
+        if (!InitiateSystemShutdownExW(NULL, L"System is Restarting NOW", 5, FALSE, TRUE, SHTDN_REASON_MAJOR_OTHER)) {
             show_failure_resp(GetLastError());
         }
         break;
     case L's':
-        if (!InitiateSystemShutdownExW(NULL, L"WinTSP Called Shutdown", 5, FALSE, FALSE, SHTDN_REASON_MAJOR_OTHER)) {
+        if (!InitiateSystemShutdownExW(NULL, L"System is Shutting Down NOW", 5, FALSE, FALSE, SHTDN_REASON_MAJOR_OTHER)) {
             show_failure_resp(GetLastError());
         }
         break;

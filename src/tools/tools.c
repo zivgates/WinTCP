@@ -1,7 +1,6 @@
 #include "tools.h"
 
 
-extern HANDLE heap;
 
 
 void* alloc_mem(size_t size) {
